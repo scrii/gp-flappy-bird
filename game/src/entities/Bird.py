@@ -1,4 +1,4 @@
-from entities.GraphicsObject import GraphicsObject
+from game.src.entities.graphics_object import GraphicsObject
 
 class Bird(GraphicsObject):
     def update(self):
