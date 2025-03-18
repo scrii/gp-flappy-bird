@@ -1,6 +1,5 @@
 from entities.graphics_object import GraphicsObject
 from settings import FPS, SCREEN_WIDTH, SCREEN_HEIGHT, FALL_ACCELERATION
-from math import sqrt
 
 class PhysicalObject(GraphicsObject):
     def __init__(self, hitbox, image, position, velocity_x = 0, velocity_y = 0, acceleration_x = 0, acceleration_y = FALL_ACCELERATION):
@@ -35,10 +34,6 @@ class PhysicalObject(GraphicsObject):
 
     def set_acceleration_y(self, acceleration_y):
         self.acceleration_y = acceleration_y
-
-    def get_distance(self, object: "PhysicalObject"):
-        return sqrt((self._position.get_x() - object._position.get_x())**2 + 
-                    (self._position.get_y() - object._position.get_y())**2)
 
     def check_collision(self, object: 'PhysicalObject'):
         left1 = min(self._position.get_x(), self._position.get_x() + self._hitbox.get_width())
