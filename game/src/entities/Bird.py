@@ -1,5 +1,6 @@
 from entities.physical_object import PhysicalObject
 from settings import JUMP_VELOCITY, FALL_ACCELERATION, BIRD_FALL_VELOCITY
+from tools.bird_stats import BirdStats
 
 class Bird(PhysicalObject):
     def __init__(self, hitbox, image, position):
@@ -14,6 +15,7 @@ class Bird(PhysicalObject):
         )
         self.jump_start = 0
         self.is_jumped = False
+        self.stats = BirdStats() # temporary?
     
     def jump(self):
         self.is_jumped = True
