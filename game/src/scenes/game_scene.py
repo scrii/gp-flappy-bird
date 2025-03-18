@@ -15,11 +15,11 @@ class GameScene(Scene):
     def __init__(self):
         super().__init__()
         self.reached_pipes = 0
-        self.player = Bird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
-        self.add_graphics_object(
-            self.player
-        )
-        self.birds = [self.player]
+        # self.player = Bird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
+        # self.add_graphics_object(
+        #     self.player
+        # )
+        # self.birds = [self.player]
         self.pipes = []
         self.generate_composite_pipe()
         self.next_pipe = self.pipes[0]
@@ -29,7 +29,8 @@ class GameScene(Scene):
     def process_event(self, event: pygame.event.Event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                self.player.jump()
+                # self.player.jump()
+                pass
 
     def update(self, dt):
         super().update(dt)

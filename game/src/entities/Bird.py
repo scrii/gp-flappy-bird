@@ -15,7 +15,7 @@ class Bird(PhysicalObject):
         )
         self.jump_start = 0
         self.is_jumped = False
-        self.stats = BirdStats() # temporary?
+        # self.stats = BirdStats() # temporary?
     
     def jump(self):
         self.is_jumped = True
