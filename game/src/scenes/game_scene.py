@@ -7,14 +7,14 @@ from scenes.scene import Scene
 from entities.physical_object import PhysicalObject
 from tools.hitbox import Hitbox
 from tools.point import Point
-from settings import ASSETS_PATH, PIPES_HORIZONTAL_GAP, SCREEN_WIDTH, SCREEN_HEIGHT, BIRD_SIZE
+from settings import ASSETS_PATH, PIPES_HORIZONTAL_GAP, SCREEN_WIDTH, SCREEN_HEIGHT, BIRD_SIZE, BIRD_X_POSITION
 from entities.pipe import Pipe
 from entities.composite_pipe import CompositePipe
 
 class GameScene(Scene):
     def __init__(self):
         super().__init__()
-        self.player = Bird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(0, 0))
+        self.player = Bird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
         self.add_graphics_object(
             self.player
         )
