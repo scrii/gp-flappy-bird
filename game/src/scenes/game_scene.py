@@ -1,6 +1,6 @@
 import pygame
 from settings import Color
-from entities.bird import Bird
+from entities.Bird import Bird
 from entities.graphics_object import GraphicsObject
 from gp import GeneticProgramming
 from scenes.scene import Scene
