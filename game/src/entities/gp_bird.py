@@ -1,5 +1,5 @@
 from random import random
-from entities.bird import Bird
+from entities.Bird import Bird
 from typing import List
 from tools.bird_stats import BirdStats
 from entities.DecisionTreeNode import DecisionTreeNode, FUNCTION_SET

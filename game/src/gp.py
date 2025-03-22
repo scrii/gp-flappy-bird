@@ -3,6 +3,7 @@ from entities.Bird import Bird
 from entities.gp_bird import GPBird
 from entities.graphics_object import GraphicsObject
 from typing import List
+from entities.DecisionTreeNode import *
 from settings import *
 import pygame
 import random
@@ -35,11 +36,22 @@ class GeneticProgramming:
         return sorted(tournament, key=lambda x: x.fitness, reverse=True)[:2]
 
     def crossover(self, parent1, parent2):
-        # TODO
-        offspring = ...
+        node1 = get_random_node(parent1)
+        node2 = get_random_node(parent2)
+        if random.random() < 0.5:
+            new_branch = node1
+            old_branch = node2
+            offspring = parent2
+        else:
+            new_branch = node2
+            old_branch = node1
+            offspring = parent1
+        replace_node(offspring, old_branch, new_branch)
         return offspring
 
+
     def mutate(self, tree):
-        # TODO
-        pass
+        old_node = get_random_node(tree)
+        new_node = generate_random_tree()
+        replace_node(tree, old_node, new_node)
 
