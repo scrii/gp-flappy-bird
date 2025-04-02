@@ -1,4 +1,8 @@
 import pygame
+
+from entities.gp_bird import GPBird
+from tools.hitbox import Hitbox
+from tools.point import Point
 from settings import *
 from scenes.game_scene import GameScene
 import time
@@ -41,6 +45,19 @@ class Game:
     
     def update(self, dt):
         self.current_scene.update(dt)
+        if len(self.current_scene.birds) == 0:
+            print('new gen')
+            # create new generation
+            newBrains = self.current_scene.geneticProgramming.evolve()
+            population = []
+            for _ in range(10):
+                bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                              Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
+                population.append(bird)
+            # update environment
+            del self.current_scene
+            self.current_scene = GameScene(population)
+            #self.current_scene.birds = population
 
     def draw(self):
         self.current_scene.draw(self.screen)

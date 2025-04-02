@@ -8,7 +8,7 @@ from settings import JUMP_VELOCITY, FALL_ACCELERATION, BIRD_FALL_VELOCITY
 
 
 TERMINAL_SET = ['B_pos_x', 'B_pos_y', 'P_pos_x', 'P_pos_y']
-#TERMINAL_SET = ['birdFallVel', 'pipeVel', ]
+#TERMINAL_SET = ['B_pos_y', 'P_pos_x', 'P_pos_y', 'birdFallVel', 'pipeVel', ]
 
 class GPBird(Bird):
     def __init__(self, hitbox, image, position, decision_tree: DecisionTreeNode = None):
@@ -34,14 +34,9 @@ class GPBird(Bird):
 
 def evaluate_tree(node: DecisionTreeNode, terminal_set):
     if node.is_leaf():
-        if node.value == 'B_pos_x':
-            return terminal_set[0]
-        if node.value == 'B_pos_y':
-            return terminal_set[1]
-        if node.value == 'P_pos_x':
-            return terminal_set[2]
-        if node.value == 'P_pos_y':
-            return terminal_set[3]
+        for i in range(len(terminal_set)):
+            if node.value == TERMINAL_SET[i]:
+                return terminal_set[i]
         return int(node.value)
         # return TERMINAL_SET[node.value]
     left_expr = evaluate_tree(node.left, terminal_set=terminal_set)

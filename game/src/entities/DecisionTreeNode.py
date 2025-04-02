@@ -27,6 +27,7 @@ class DecisionTreeNode:
         self.value = value
         self.left = left
         self.right = right
+        self.fitness = 0
 
     def is_leaf(self):
         return self.left is None and self.right is None
@@ -54,19 +55,42 @@ def generate_random_tree():
     return DecisionTreeNode(function, generate_random_tree(),
                             generate_random_tree())
 
-def take_all_nodes(node: DecisionTreeNode):
-    if node.is_leaf():
-        return [node]
-    return [node] + take_all_nodes(node.left) + take_all_nodes(node.right)
+def take_all_nodes(root: DecisionTreeNode) -> list[DecisionTreeNode]:
+    if root is None:
+        return []
+    nodes = []
+    stack = [root]
+    while stack:
+        node = stack.pop()
+        nodes.append(node)
+        if node.left:
+            stack.append(node.left)
+        if node.right:
+            stack.append(node.right)
+    return nodes
+    # if node.is_leaf():
+    #     return [node]
+    # if node.left is None and node.right is None:
+    #     return [node]
+    # return [node] + take_all_nodes(node.left) + take_all_nodes(node.right)
 
 def replace_node(tree: DecisionTreeNode, old_node: DecisionTreeNode, new_node: DecisionTreeNode):
-    if tree.left is old_node:
-        tree.left = new_node
-    elif tree.right is old_node:
-        tree.right = new_node
-    else:
-        replace_node(tree.left, old_node, new_node)
-        replace_node(tree.right, old_node, new_node)
+    if tree is None:
+        return None
+    if tree is old_node:
+        return new_node
+    if tree.is_leaf():
+        return tree
+
+    new_left = replace_node(tree.left, old_node, new_node)
+    new_right = replace_node(tree.right, old_node, new_node)
+
+    if new_left is not tree.left or new_right is not tree.right:
+        new_tree = DecisionTreeNode(tree.value, new_left, new_right)
+        new_tree.fitness = tree.fitness  # Сохраняем fitness
+        return new_tree
+
+    return tree
 
 
 

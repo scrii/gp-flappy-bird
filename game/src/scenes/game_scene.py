@@ -13,7 +13,7 @@ from entities.pipe import Pipe
 from entities.composite_pipe import CompositePipe
 
 class GameScene(Scene):
-    def __init__(self):
+    def __init__(self, population = None):
         super().__init__()
         self.reached_pipes = 0
         # self.player = Bird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
@@ -21,16 +21,20 @@ class GameScene(Scene):
         #     self.player
         # )
         # self.birds = [self.player]
-        birds = []
-        for _ in range(10):
-            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
-            birds.append(bird)
+        if population is None:
+            population = []
+            for _ in range(20):
+                bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
+                population.append(bird)
+
+        for bird in population:
             self.add_graphics_object(bird)
-        self.birds = [bird for bird in birds]
+        self.birds = [bird for bird in population]
         self.pipes = []
         self.generate_composite_pipe()
         self.next_pipe = self.pipes[0]
         self.is_next_pipe_added = True
+        self.geneticProgramming = GeneticProgramming(population=population)
 
 
     def process_event(self, event: pygame.event.Event):
@@ -49,6 +53,8 @@ class GameScene(Scene):
                 self.reached_pipes += 1
                 self.is_next_pipe_added = False
                 print("reached")
+                for bird in self.birds:
+                    bird.get_decision_tree().fitness += 1
 
         for pipe in self.pipes:
             if pipe.check_off_screen():
@@ -74,9 +80,23 @@ class GameScene(Scene):
                     self.remove_graphics_object(bird)
 
         for gp_bird in self.birds:
+            # get next_pipe position and make decision
             if gp_bird.make_decision(terminal_set=[gp_bird._position.get_x(), gp_bird._position.get_y(), self.next_pipe._position.get_x(), self.next_pipe._position.get_y() ]):
                 gp_bird.jump()
-            # get next_pipe position and make decision
+
+        # if len(self.birds) == 0:
+        #     # The previous generation fell
+        #     # it's time for new ones
+        #     newBrains = self.geneticProgramming.evolve()
+        #     population = []
+        #     for _ in range(10):
+        #         bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+        #                       Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
+        #         population.append(bird)
+        #         self.add_graphics_object(bird)
+        #     self.birds = [bird for bird in population]
+
+
 
 
     
