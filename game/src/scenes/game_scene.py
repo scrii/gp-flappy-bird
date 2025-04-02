@@ -1,6 +1,7 @@
 import pygame
 from settings import Color
 from entities.Bird import Bird
+from entities.gp_bird import GPBird
 from entities.graphics_object import GraphicsObject
 from gp import GeneticProgramming
 from scenes.scene import Scene
@@ -20,6 +21,12 @@ class GameScene(Scene):
         #     self.player
         # )
         # self.birds = [self.player]
+        birds = []
+        for _ in range(10):
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
+            birds.append(bird)
+            self.add_graphics_object(bird)
+        self.birds = [bird for bird in birds]
         self.pipes = []
         self.generate_composite_pipe()
         self.next_pipe = self.pipes[0]
@@ -65,6 +72,12 @@ class GameScene(Scene):
                     bird.stats.set_score(self.reached_pipes)
                     self.birds.remove(bird)
                     self.remove_graphics_object(bird)
+
+        for gp_bird in self.birds:
+            if gp_bird.make_decision(terminal_set=[gp_bird._position.get_x(), gp_bird._position.get_y(), self.next_pipe._position.get_x(), self.next_pipe._position.get_y() ]):
+                gp_bird.jump()
+            # get next_pipe position and make decision
+
 
     
     def generate_composite_pipe(self):

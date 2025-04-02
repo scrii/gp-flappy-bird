@@ -49,7 +49,6 @@ class GeneticProgramming:
         replace_node(offspring, old_branch, new_branch)
         return offspring
 
-
     def mutate(self, tree):
         old_node = get_random_node(tree)
         new_node = generate_random_tree()
