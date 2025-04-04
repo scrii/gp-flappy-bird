@@ -48,12 +48,12 @@ class Game:
         if len(self.current_scene.birds) == 0:
             print('new gen')
             # create new generation
-            newBrains = self.current_scene.geneticProgramming.evolve()
+            newBirds = self.current_scene.geneticProgramming.evolve()
             population = []
             for _ in range(10):
-                bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
-                              Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
-                population.append(bird)
+                # bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                #               Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
+                population.append(newBirds[_])
             # update environment
             del self.current_scene
             self.current_scene = GameScene(population)

@@ -23,7 +23,7 @@ class GameScene(Scene):
         # self.birds = [self.player]
         if population is None:
             population = []
-            for _ in range(20):
+            for _ in range(10):
                 bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
                 population.append(bird)
 
@@ -34,7 +34,7 @@ class GameScene(Scene):
         self.generate_composite_pipe()
         self.next_pipe = self.pipes[0]
         self.is_next_pipe_added = True
-        self.geneticProgramming = GeneticProgramming(population=population)
+        self.geneticProgramming = GeneticProgramming(population=population, mutation_rate=0.2)
 
 
     def process_event(self, event: pygame.event.Event):
@@ -54,7 +54,8 @@ class GameScene(Scene):
                 self.is_next_pipe_added = False
                 print("reached")
                 for bird in self.birds:
-                    bird.get_decision_tree().fitness += 1
+                    bird.fitness += 10
+
 
         for pipe in self.pipes:
             if pipe.check_off_screen():
@@ -64,10 +65,15 @@ class GameScene(Scene):
                 self.next_pipe = pipe
                 self.is_next_pipe_added = True
                 print("pipe is switched")
+                for bird in self.birds:
+                    bird.fitness += 20
             
         for bird in self.birds:
             if bird.check_off_screen():
-                bird.stats.set_score(self.reached_pipes)
+                bird.stats.set_score(
+                    bird.fitness
+                    #self.reached_pipes
+                )
                 self.birds.remove(bird)
                 self.remove_graphics_object(bird)
                 print(bird.stats.get_score())
@@ -75,7 +81,10 @@ class GameScene(Scene):
         for bird in self.birds:
             for pipe in self.pipes:
                 if bird.check_collision(pipe):
-                    bird.stats.set_score(self.reached_pipes)
+                    bird.stats.set_score(
+                        bird.fitness
+                        #self.reached_pipes
+                    )
                     self.birds.remove(bird)
                     self.remove_graphics_object(bird)
 
@@ -84,6 +93,8 @@ class GameScene(Scene):
             if gp_bird.make_decision(terminal_set=[gp_bird._position.get_x(), gp_bird._position.get_y(), self.next_pipe._position.get_x(), self.next_pipe._position.get_y() ]):
                 gp_bird.jump()
 
+        for bird in self.birds:
+            bird.fitness += 1
         # if len(self.birds) == 0:
         #     # The previous generation fell
         #     # it's time for new ones

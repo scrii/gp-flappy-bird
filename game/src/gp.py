@@ -4,31 +4,35 @@ from entities.gp_bird import GPBird
 from entities.graphics_object import GraphicsObject
 from typing import List
 from entities.DecisionTreeNode import *
+from tools.hitbox import Hitbox
+from tools.point import Point
 from settings import *
 import pygame
 import random
 
 
 class GeneticProgramming:
-    def __init__(self, population_size: int=10, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=3, population: List[GPBird]=None) -> None:
+    def __init__(self, population_size: int=10, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=4, population: List[GPBird]=None) -> None:
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
         self.tournament_size = tournament_size
-        self.population = [bird.get_decision_tree() for bird in population]
+        self.population = [bird for bird in population]
         pass
 
-    def evolve(self):
+    def evolve(self) -> List[GPBird]:
         new_population = []
         for _ in range(self.population_size):
             parent1, parent2 = self.selection()
             if random.random() < self.crossover_rate:
-                offspring = self.crossover(parent1, parent2)
+                offspring = self.crossover(parent1.get_decision_tree(), parent2.get_decision_tree())
             else:
-                offspring = parent1 if random.random() < 0.5 else parent2
+                offspring = parent1.get_decision_tree() if random.random() < 0.5 else parent2.get_decision_tree()
             if random.random() < self.mutation_rate:
                 offspring = self.mutate(offspring)
-            new_population.append(offspring)
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                              Point(BIRD_X_POSITION, 0), decision_tree=offspring)
+            new_population.append(bird)
         self.population = new_population
         return new_population
 
