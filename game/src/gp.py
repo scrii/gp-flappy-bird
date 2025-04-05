@@ -12,7 +12,7 @@ import random
 
 
 class GeneticProgramming:
-    def __init__(self, population_size: int=10, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=4, population: List[GPBird]=None) -> None:
+    def __init__(self, population_size: int=10, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=5, population: List[GPBird]=None) -> None:
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -22,7 +22,7 @@ class GeneticProgramming:
 
     def evolve(self) -> List[GPBird]:
         new_population = []
-        for _ in range(self.population_size):
+        while len(new_population) < self.population_size:
             parent1, parent2 = self.selection()
             if random.random() < self.crossover_rate:
                 offspring = self.crossover(parent1.get_decision_tree(), parent2.get_decision_tree())
@@ -32,7 +32,8 @@ class GeneticProgramming:
                 offspring = self.mutate(offspring)
             bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
                               Point(BIRD_X_POSITION, 0), decision_tree=offspring)
-            new_population.append(bird)
+            if bird.get_decision_tree().get_tree_depth() > 10: continue
+            else: new_population.append(bird)
         self.population = new_population
         return new_population
 

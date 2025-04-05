@@ -53,8 +53,8 @@ class GameScene(Scene):
                 self.reached_pipes += 1
                 self.is_next_pipe_added = False
                 print("reached")
-                for bird in self.birds:
-                    bird.fitness += 10
+                # for bird in self.birds:
+                #     bird.fitness += 10
 
 
         for pipe in self.pipes:
@@ -71,7 +71,7 @@ class GameScene(Scene):
         for bird in self.birds:
             if bird.check_off_screen():
                 bird.stats.set_score(
-                    bird.fitness
+                    bird.fitness - bird.get_decision_tree().get_tree_depth()
                     #self.reached_pipes
                 )
                 self.birds.remove(bird)
@@ -82,8 +82,8 @@ class GameScene(Scene):
             for pipe in self.pipes:
                 if bird.check_collision(pipe):
                     bird.stats.set_score(
-                        bird.fitness
-                        #self.reached_pipes
+                        #bird.fitness - bird.get_decision_tree().get_tree_depth()
+                        self.reached_pipes
                     )
                     self.birds.remove(bird)
                     self.remove_graphics_object(bird)
@@ -95,6 +95,8 @@ class GameScene(Scene):
 
         for bird in self.birds:
             bird.fitness += 1
+            if bird._position.get_y() == self.next_pipe._position.get_y():
+                bird.fitness += 2
         # if len(self.birds) == 0:
         #     # The previous generation fell
         #     # it's time for new ones

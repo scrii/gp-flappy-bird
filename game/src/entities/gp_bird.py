@@ -26,8 +26,9 @@ SETTING_SET = {
 class GPBird(Bird):
     def __init__(self, hitbox, image, position, decision_tree: DecisionTreeNode = None):
         super().__init__(hitbox, image, position)
+        self.init_depth = 5
         if (decision_tree is None):
-            self.__decision_tree = self.__generate_decision_tree(5)
+            self.__decision_tree = self.__generate_decision_tree(self.init_depth)
         else:
             self.__decision_tree = decision_tree #__generate_decision_tree(3)
         self.stats = BirdStats()
@@ -41,6 +42,11 @@ class GPBird(Bird):
         return self.__decision_tree
 
     def __generate_decision_tree(self, depth: int):
+        if depth == self.init_depth:
+            function = random.choice(list(FUNCTION_SET.keys())[4:])
+            left = self.__generate_decision_tree(depth - 1)
+            right = self.__generate_decision_tree(depth - 1)
+            return DecisionTreeNode(function, left, right)
         if depth == 0:
             options = TERMINAL_SET + [str(randint(0, 99))] + list(SETTING_SET.keys())
             return DecisionTreeNode(random.choice(options))

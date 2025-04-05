@@ -41,6 +41,14 @@ class DecisionTreeNode:
 
     def is_leaf(self):
         return self.left is None and self.right is None
+    def get_tree_depth(self) -> int:
+        if self is None:
+            return 0
+        if self.is_leaf():
+            return 1
+        return 1 + max(self.left.get_tree_depth(), self.right.get_tree_depth())
+
+
 
 def tree_to_expression(node: DecisionTreeNode):
     if node.is_leaf():
