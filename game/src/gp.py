@@ -26,9 +26,9 @@ class GeneticProgramming:
         new_population = []
         self.population.sort(key=lambda x: x.fitness, reverse=True)
         for i in range(5): # save 5 the best
-            offspring = copy.copy(self.population[i])
-            offspring.fitness = 0
-            new_population.append(offspring)
+            offspring = copy.copy(self.population[i].get_decision_tree())
+            new_population.append(GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                              Point(BIRD_X_POSITION, 0), decision_tree=offspring))
         while len(new_population) < self.population_size:
             parent1, parent2 = self.selection()
             if random.random() < self.crossover_rate:
