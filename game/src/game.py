@@ -46,11 +46,15 @@ class Game:
     def update(self, dt):
         self.current_scene.update(dt)
         if len(self.current_scene.birds) == 0:
+
+            oldPop = self.current_scene.geneticProgramming.population
+            oldPop.sort(key=lambda x: x.fitness, reverse=True)
+            print(oldPop[0].fitness)
             print('new gen')
             # create new generation
             newBirds = self.current_scene.geneticProgramming.evolve()
             population = []
-            for _ in range(10):
+            for _ in range(len(newBirds)):
                 # bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
                 #               Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
                 population.append(newBirds[_])

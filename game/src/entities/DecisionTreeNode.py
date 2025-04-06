@@ -68,7 +68,9 @@ def get_random_node(node: DecisionTreeNode):
 
 def generate_random_tree(depth: int = 0):
     if random.random() < 0.5 + 0.1 * depth:
-        options = TERMINAL_SET + [str(random.randint(0, 99))] + list(SETTING_SET.keys())
+        options = (TERMINAL_SET +
+                   [str(random.randint(0, 10))] +
+                   list(SETTING_SET.keys()))
         return DecisionTreeNode(random.choice(options))
     function = random.choice(list(FUNCTION_SET.keys()))
     return DecisionTreeNode(function, generate_random_tree(depth + 1),

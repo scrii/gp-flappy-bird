@@ -1,3 +1,5 @@
+import copy
+
 import pygame.locals
 from entities.Bird import Bird
 from entities.gp_bird import GPBird
@@ -17,11 +19,16 @@ class GeneticProgramming:
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
         self.tournament_size = tournament_size
-        self.population = [bird for bird in population]
-        pass
+        self.population = population
+        #pass
 
     def evolve(self) -> List[GPBird]:
         new_population = []
+        self.population.sort(key=lambda x: x.fitness, reverse=True)
+        for i in range(5): # save 5 the best
+            offspring = copy.copy(self.population[i])
+            offspring.fitness = 0
+            new_population.append(offspring)
         while len(new_population) < self.population_size:
             parent1, parent2 = self.selection()
             if random.random() < self.crossover_rate:

@@ -33,10 +33,11 @@ class GPBird(Bird):
             self.__decision_tree = decision_tree #__generate_decision_tree(3)
         self.stats = BirdStats()
         self.fitness = 0
+        self.lifeTime = 0
 
     def make_decision(self, terminal_set):
         decision_tree = self.__decision_tree
-        return evaluate_tree(decision_tree, terminal_set)
+        return evaluate_tree(decision_tree, terminal_set) % 2
 
     def get_decision_tree(self):
         return self.__decision_tree
@@ -48,7 +49,9 @@ class GPBird(Bird):
             right = self.__generate_decision_tree(depth - 1)
             return DecisionTreeNode(function, left, right)
         if depth == 0:
-            options = TERMINAL_SET + [str(randint(0, 99))] + list(SETTING_SET.keys())
+            options = (TERMINAL_SET +
+                       [str(randint(0, 10))] +
+                       list(SETTING_SET.keys()))
             return DecisionTreeNode(random.choice(options))
         function = random.choice(list(FUNCTION_SET.keys()))
         left = self.__generate_decision_tree(depth - 1)
