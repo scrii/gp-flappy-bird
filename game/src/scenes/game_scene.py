@@ -8,7 +8,7 @@ from scenes.scene import Scene
 from entities.physical_object import PhysicalObject
 from tools.hitbox import Hitbox
 from tools.point import Point
-from settings import ASSETS_PATH, PIPES_HORIZONTAL_GAP, SCREEN_WIDTH, SCREEN_HEIGHT, BIRD_SIZE, BIRD_X_POSITION
+from settings import ASSETS_PATH, PIPES_HORIZONTAL_GAP, SCREEN_WIDTH, SCREEN_HEIGHT, BIRD_SIZE, BIRD_X_POSITION, PIPE_WIDTH
 from entities.pipe import Pipe
 from entities.composite_pipe import CompositePipe
 
@@ -52,7 +52,7 @@ class GameScene(Scene):
             self.generate_composite_pipe()
 
         if self.is_next_pipe_added and \
-            self.birds and self.next_pipe._position.get_x() - self.birds[0]._position.get_x() <= 0:
+            self.birds and self.next_pipe._position.get_x() + PIPE_WIDTH - self.birds[0]._position.get_x() <= 0:
                 self.reached_pipes += 1
                 self.is_next_pipe_added = False
                 print("reached")
@@ -64,7 +64,7 @@ class GameScene(Scene):
             if pipe.check_off_screen():
                 self.remove_graphics_object(self.pipes.pop(0))
             if not self.is_next_pipe_added and \
-                self.birds and pipe._position.get_x() - self.birds[0]._position.get_x() > 0:
+                self.birds and pipe._position.get_x() + PIPE_WIDTH - self.birds[0]._position.get_x() > 0:
                 self.next_pipe = pipe
                 self.is_next_pipe_added = True
                 print("pipe is switched")
