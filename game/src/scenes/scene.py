@@ -2,13 +2,14 @@ from abc import ABC, abstractmethod
 from entities.graphics_object import GraphicsObject
 from settings import *
 import pygame
+import settings
 
 class Scene(ABC):
     def __init__(self):
         self.graphics_objects = []
 
     def draw(self, screen: pygame.surface.Surface):
-        screen.fill((0, 0, 0))
+        screen.fill((152, 255, 101))
         for graphics_object in self.graphics_objects:
             graphics_object.draw(screen)
         pygame.display.flip()

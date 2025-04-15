@@ -5,7 +5,7 @@ SCREEN_HEIGHT = 700
 FPS = 30
 ASSETS_PATH = '../assets/'
 
-class Color(Enum):
+class BackgroundColor(Enum):
     WHITE = (255, 255, 255)
 
 FALL_ACCELERATION = 1.8

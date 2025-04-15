@@ -1,5 +1,4 @@
 import pygame
-from settings import Color
 from entities.Bird import Bird
 from entities.gp_bird import GPBird
 from entities.graphics_object import GraphicsObject
