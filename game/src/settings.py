@@ -1,0 +1,26 @@
+from enum import Enum
+
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 700
+FPS = 30
+ASSETS_PATH = '../assets/'
+
+class BackgroundColor(Enum):
+    WHITE = (255, 255, 255)
+
+FALL_ACCELERATION = 1.8
+JUMP_VELOCITY = -17
+
+PIPE_VELOCITY = -6.2
+PIPE_MIN_HEIGHT = SCREEN_HEIGHT // 5
+PIPES_HORIZONTAL_GAP = SCREEN_WIDTH // 2.5
+
+BIRD_SIZE = SCREEN_HEIGHT // 10
+PIPE_WIDTH = BIRD_SIZE * 1.6
+PIPES_VERTICAL_GAP = int(2.8 * BIRD_SIZE)
+
+BIRD_FALL_VELOCITY = -JUMP_VELOCITY
+BIRD_X_POSITION = SCREEN_WIDTH // 6
+
+BIRDTEXTURES = ['bird_0', 'bird_1', 'bird_2', 'bird_3', 'bird_4', 
+         'bird_5', 'bird_6', 'bird_7', 'bird_8', 'bird_9']
