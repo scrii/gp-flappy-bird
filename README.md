@@ -8,9 +8,6 @@ The game classes adhere to a hierarchical structure, following the principles of
 
 *The game is written in Python using Pygame.*
 
-![](https://github.com/scrii/gp-flappy-bird/raw/main/screenshots/1.jpg)
-![](https://github.com/scrii/gp-flappy-bird/raw/main/screenshots/2.jpg)
-
 ### Physics Logic Overview
 
 Obstacles move horizontally with the constant velocity. Birds move with the constant velocity vertically, however, at the time of the jump they get the falling acceleration.
