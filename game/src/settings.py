@@ -21,3 +21,6 @@ PIPES_VERTICAL_GAP = int(2.8 * BIRD_SIZE)
 
 BIRD_FALL_VELOCITY = -JUMP_VELOCITY
 BIRD_X_POSITION = SCREEN_WIDTH // 6
+
+BIRDTEXTURES = ['bird_0', 'bird_1', 'bird_2', 'bird_3', 'bird_4', 
+         'bird_5', 'bird_6', 'bird_7', 'bird_8', 'bird_9']

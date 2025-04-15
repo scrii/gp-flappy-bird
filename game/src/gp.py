@@ -1,5 +1,5 @@
 import copy
-
+from random import choice
 import pygame.locals
 from entities.Bird import Bird
 from entities.gp_bird import GPBird
@@ -27,7 +27,7 @@ class GeneticProgramming:
         self.population.sort(key=lambda x: x.fitness, reverse=True)
         for i in range(5): # save 5 the best
             offspring = copy.copy(self.population[i].get_decision_tree())
-            new_population.append(GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+            new_population.append(GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + f'images/{choice(BIRDTEXTURES)}.png'),
                               Point(BIRD_X_POSITION, 0), decision_tree=offspring))
         while len(new_population) < self.population_size:
             parent1, parent2 = self.selection()
@@ -37,7 +37,7 @@ class GeneticProgramming:
                 offspring = parent1.get_decision_tree() if random.random() < 0.5 else parent2.get_decision_tree()
             if random.random() < self.mutation_rate:
                 offspring = self.mutate(offspring)
-            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + f'images/{choice(BIRDTEXTURES)}.png'),
                               Point(BIRD_X_POSITION, 0), decision_tree=offspring)
             if bird.get_decision_tree().get_tree_depth() > 10: continue
             else: new_population.append(bird)

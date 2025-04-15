@@ -1,5 +1,5 @@
 import pygame
-
+from random import choice
 from entities.gp_bird import GPBird
 from tools.hitbox import Hitbox
 from tools.point import Point
@@ -84,7 +84,7 @@ class Game:
             f.write(f"RESET\n")
         population = []
         for _ in range(100):
-            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + f'images/{choice(BIRDTEXTURES)}.png'),
                           Point(BIRD_X_POSITION, 0))
             population.append(bird)
         return population

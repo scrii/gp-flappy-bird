@@ -1,4 +1,5 @@
 import pygame
+from random import choice
 from entities.Bird import Bird
 from entities.gp_bird import GPBird
 from entities.graphics_object import GraphicsObject
@@ -11,7 +12,7 @@ from settings import ASSETS_PATH, PIPES_HORIZONTAL_GAP, SCREEN_WIDTH, SCREEN_HEI
 from entities.pipe import Pipe
 from entities.composite_pipe import CompositePipe
 
-from settings import PIPE_MIN_HEIGHT, PIPES_VERTICAL_GAP
+from settings import PIPE_MIN_HEIGHT, PIPES_VERTICAL_GAP, BIRDTEXTURES
 
 
 class GameScene(Scene):
@@ -26,7 +27,7 @@ class GameScene(Scene):
         if population is None:
             population = []
             for _ in range(100):
-                bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'), Point(BIRD_X_POSITION, 0))
+                bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + f'images/{choice(BIRDTEXTURES)}.png'), Point(BIRD_X_POSITION, 0))
                 population.append(bird)
 
         for bird in population:
