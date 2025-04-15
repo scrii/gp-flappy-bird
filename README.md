@@ -1,12 +1,30 @@
 # Nature Inspired Computing for Gaming: the Flappy Bird Game
-> [!IMPORTANT]
-> There are 3 branches in this project for the current moment: *main*, *dev*, and *gp*.
-> 
-> Please, pay attention to the *dev* and *gp* branches that contains the work itself.
 
-### The *dev* branch 
-It contains the game structure and provides the main mechanics.
-By running the main.py an user can play the game in the single-player mode.
+---
 
-### The *gp* branch
-It contains the work that is related to the Genetic Programming algorithm.
+## Game Overview
+The project itself is a copy of the Flappy Bird game with the integrated Genetic Programming algorithm. 
+The game itself learns how to play and tries to maximize the lifetime of a bird.
+
+The game classes adhere to a hierarchical structure, following the principles of OOP and respecting the principle of single responsibility.
+
+*The game is written in Python using Pygame.*
+
+![](https://github.com/scrii/gp-flappy-bird/raw/main/screenshots/1.jpg)
+![](https://github.com/scrii/gp-flappy-bird/raw/main/screenshots/2.jpg)
+
+### Physics Logic Overview
+
+Obstacles move horizontally with the constant velocity. Birds move with the constant velocity vertically, however, at the time of the jump they get the falling acceleration.
+
+### Genetic Programming
+
+<...>
+
+---
+
+##  Launch Locally
+
+To run launch the main.py file.
+
+*Pygame should be installed.*
