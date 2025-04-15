@@ -46,6 +46,10 @@ class Game:
                 break
             elif event.type == pygame.ACTIVEEVENT:
                 self.is_paused = (event.gain == 0)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    population = self.reset_population()
+                    self.restart(population)
             self.current_scene.process_event(event)
     
     def update(self, dt):
@@ -64,23 +68,30 @@ class Game:
 
             # create new generation
             if self.reset_counter == self.reset_condition:
-                print('RESET')
-                with open("output.txt", "a") as f:
-                    f.write(f"{i}\n")
-                population = []
-                for _ in range(100):
-                    bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
-                                  Point(BIRD_X_POSITION, 0))
-                    population.append(bird)
+                population = self.reset_population()
             else:
                 newBirds = self.current_scene.geneticProgramming.evolve()
                 population = []
                 for _ in range(len(newBirds)):
                     population.append(newBirds[_])
             # update environment
-            del self.current_scene
-            self.current_scene = GameScene(population)
+            self.restart(population)
             #self.current_scene.birds = population
+
+    def reset_population(self):
+        print('RESET')
+        with open("output.txt", "a") as f:
+            f.write(f"RESET\n")
+        population = []
+        for _ in range(100):
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                          Point(BIRD_X_POSITION, 0))
+            population.append(bird)
+        return population
+    
+    def restart(self, population):
+        del self.current_scene
+        self.current_scene = GameScene(population)
 
     def draw(self):
         self.current_scene.draw(self.screen)
