@@ -14,6 +14,11 @@ class Game:
         self.clock = pygame.time.Clock()
         self.run_condition = True
         self.is_paused = False
+        self.reset_counter = 0
+        self.prev_fitness = 0
+        self.reset_condition = 10
+        with open("output.txt", "w"):
+            pass
 
     def run(self):
         prev_time = time.time()
@@ -41,27 +46,52 @@ class Game:
                 break
             elif event.type == pygame.ACTIVEEVENT:
                 self.is_paused = (event.gain == 0)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    population = self.reset_population()
+                    self.restart(population)
             self.current_scene.process_event(event)
     
     def update(self, dt):
         self.current_scene.update(dt)
         if len(self.current_scene.birds) == 0:
-
             oldPop = self.current_scene.geneticProgramming.population
             oldPop.sort(key=lambda x: x.fitness, reverse=True)
-            print(oldPop[0].fitness)
-            print('new gen')
+            if oldPop[0].fitness > self.prev_fitness:
+                self.reset_counter = 0
+            else:
+                self.reset_counter += 1
+            self.prev_fitness = oldPop[0].fitness
+            print(self.prev_fitness)
+            with open("output.txt", "a") as f:
+                f.write(f"{self.prev_fitness}\n")
+
             # create new generation
-            newBirds = self.current_scene.geneticProgramming.evolve()
-            population = []
-            for _ in range(len(newBirds)):
-                # bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
-                #               Point(BIRD_X_POSITION, 0), decision_tree=newBrains[_])
-                population.append(newBirds[_])
+            if self.reset_counter == self.reset_condition:
+                population = self.reset_population()
+            else:
+                newBirds = self.current_scene.geneticProgramming.evolve()
+                population = []
+                for _ in range(len(newBirds)):
+                    population.append(newBirds[_])
             # update environment
-            del self.current_scene
-            self.current_scene = GameScene(population)
+            self.restart(population)
             #self.current_scene.birds = population
+
+    def reset_population(self):
+        print('RESET')
+        with open("output.txt", "a") as f:
+            f.write(f"RESET\n")
+        population = []
+        for _ in range(100):
+            bird = GPBird(Hitbox(BIRD_SIZE, BIRD_SIZE), pygame.image.load(ASSETS_PATH + 'images/bird.png'),
+                          Point(BIRD_X_POSITION, 0))
+            population.append(bird)
+        return population
+    
+    def restart(self, population):
+        del self.current_scene
+        self.current_scene = GameScene(population)
 
     def draw(self):
         self.current_scene.draw(self.screen)
