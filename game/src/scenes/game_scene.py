@@ -95,8 +95,8 @@ class GameScene(Scene):
         for bird in self.birds:
             bird.fitness += 1 # bonus for lifetime
             # bonus for being close to gap
-            bird.fitness += 100 / (abs( self.next_pipe._position.get_y() + PIPES_VERTICAL_GAP / 2 - bird._position.get_y()) + 3)
-            if bird._position.get_y() < SCREEN_HEIGHT - PIPE_MIN_HEIGHT - PIPES_VERTICAL_GAP or bird._position.get_y() > SCREEN_HEIGHT - PIPE_MIN_HEIGHT:
+            bird.fitness += int(100 / (abs( self.next_pipe._position.get_y() - PIPES_VERTICAL_GAP / 2  - bird._position.get_y()) + 3))
+            if bird._position.get_y() < PIPE_MIN_HEIGHT or bird._position.get_y() > SCREEN_HEIGHT:
                 # debuff for being close to borders
                 bird.fitness -= 1
 

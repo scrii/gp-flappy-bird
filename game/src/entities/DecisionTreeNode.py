@@ -89,11 +89,6 @@ def take_all_nodes(root: DecisionTreeNode) -> list[DecisionTreeNode]:
         if node.right:
             stack.append(node.right)
     return nodes
-    # if node.is_leaf():
-    #     return [node]
-    # if node.left is None and node.right is None:
-    #     return [node]
-    # return [node] + take_all_nodes(node.left) + take_all_nodes(node.right)
 
 def replace_node(tree: DecisionTreeNode, old_node: DecisionTreeNode, new_node: DecisionTreeNode):
     if tree is None:

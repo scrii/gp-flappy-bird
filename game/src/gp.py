@@ -14,7 +14,7 @@ import random
 
 
 class GeneticProgramming:
-    def __init__(self, population_size: int=10, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=5, population: List[GPBird]=None) -> None:
+    def __init__(self, population_size: int=100, mutation_rate: float=0.05, crossover_rate: float=0.95, tournament_size: int=30, population: List[GPBird]=None) -> None:
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -52,14 +52,14 @@ class GeneticProgramming:
         node1 = get_random_node(parent1)
         node2 = get_random_node(parent2)
         if random.random() < 0.5:
-            new_branch = node1
+            new_branch = copy.copy(node1)
             old_branch = node2
             offspring = parent2
         else:
-            new_branch = node2
+            new_branch = copy.copy(node2)
             old_branch = node1
             offspring = parent1
-        offspring = replace_node(offspring, old_branch, new_branch)
+        offspring = copy.copy(replace_node(offspring, old_branch, new_branch))
         return offspring
 
     def mutate(self, tree):
